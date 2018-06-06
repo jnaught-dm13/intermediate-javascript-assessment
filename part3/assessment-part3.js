@@ -13,8 +13,18 @@
 // return the result of your updateAnimal invocation
 
 // CODE HERE...
+const callBinding = (magicAnimals, updateAnimal, id) => {
+  let animal = "";
+  // Find the animal that matches the given id
+  magicAnimals.forEach(match => {
+    if (match.id === id) {
+      animal = match;
+    }
 
-
+    //call the update function with the animal as the context, and 'Trogdor' as a parameter.
+    return updateAnimal.call(animal, "Trogdor");
+  });
+};
 
 // *************
 // * PROBLEM 2 *
@@ -28,8 +38,11 @@
 // return the result of your updateAnimal invocation
 
 // CODE HERE...
-
-
+const applyBinding = (magicAnimals, updateAnimal, id) => {
+  // Find the animal that matches the given id, then call the function
+  // with the context of the animal, and the array ['being majestic', 'eating rainbows'] as a parameter.
+  // return the result of your updateAnimal invocation
+};
 
 // *************
 // * PROBLEM 3 *
@@ -48,8 +61,6 @@
 var foo;
 
 // CODE HERE...
-
-
 
 // *************
 // * PROBLEM 4 *

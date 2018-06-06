@@ -11,22 +11,21 @@
 // You must use two .then functions to handle the response object.
 // Chain these functions off of $http (do not put them in variables)
 // The response object will look like this :
-/*
+
+{
+  data: [
     {
-      data: [
-        {
-      		email: "awilliams0@intel.com",
-      		first_name: "Alan",
-      		gender: "Male",
-      		id: 1,
-      		last_name: "Williams"
-        },
-        {
-          //...
-        }
-      ]
+      email: "awilliams0@intel.com",
+      first_name: "Alan",
+      gender: "Male",
+      id: 1,
+      last_name: "Williams"
+    },
+    {
+      //...
     }
-*/
+  ];
+}
 
 // In the first .then function you use, assign the first user object (located in the response object)
 // to the variable 'firstUser' (previously declared), then return the response object.
@@ -34,20 +33,24 @@
 // In the second .then function you use, assign the third user object
 // to the variable 'thirdUser' (previously declared) and then return the tenth user object.
 
-var firstUser = 'don\'t touch this string!';
-var thirdUser = 'don\'t touch this string, either!';
+var firstUser = "don't touch this string!";
+var thirdUser = "don't touch this string, either!";
 
 function noWeakLink() {
-
   return $http({
-    method: 'GET',
-    url: '/api/users'
+    method: "GET",
+    url: "/api/users"
   })
+    .then(res => {
+      firstUser = res.data[0];
+      return res;
+    })
+    .then(res2 => {
+      thirdUser = res2.data[2];
+      return res2.data[9];
+    });
   // CODE HERE...
-
 }
-
-
 
 // *************
 // * PROBLEM 2 *
@@ -67,16 +70,13 @@ function noWeakLink() {
 // 'My name is Horton and I am very heavy!' (The above instructions should make this work.  No code needed for this paragraph)
 
 var elephant = {
-  name: 'Horton'
-}
+  name: "Horton"
+};
 function large() {
-
-  return 'My name is ' + this.name + ' and I am very heavy!'
+  return "My name is " + this.name + " and I am very heavy!";
 }
 // CODE HERE...
-
-
-
+let boundToElephant = large.bind(elephant);
 // *************
 // * PROBLEM 3 *
 // *************
@@ -88,9 +88,7 @@ function large() {
 // and return the bound function.
 
 // CODE HERE...
-
-
-
+const deathStar = (capacity, crew) => capacity.bind(crew);
 // *************
 // * PROBLEM 4 *
 // *************
@@ -103,8 +101,7 @@ function large() {
 // The closure function will return the combined value of assets and liabilities.
 
 // CODE HERE...
-
-
+const accountingOffice = assets => liabilities => assets + liabilities;
 
 // *************
 // * PROBLEM 5 *
@@ -128,8 +125,18 @@ function large() {
 // };
 
 // CODE HERE...
+const forgetter = name => {
+  let things = {
+    name: name,
+    remember: []
+  };
 
-
+  let rememberall = item => {
+    things.remember.push(item);
+    return things;
+  };
+  return rememberall;
+};
 
 // *************
 // * PROBLEM 6 *
@@ -156,3 +163,40 @@ function large() {
 // NOTE: Neither hunger nor danger should be able to exceed 100 or drop below 0.
 
 // CODE HERE...
+const frodo = (startingHungerValue, startingDangerValue) => {
+  let currentHunger = startingHungerValue;
+  let currentDanger = startingDangerValue;
+
+  return {
+    // The first method will be called dinnerOverFire.
+    // dinnerOverFire will decrease hunger by 25 and will increase danger by 40.
+    dinnerOverFire: () => {
+      currentHunger -= 25;
+      currentDanger += 40;
+      if (currentHunger < 0) currentHunger = 0;
+      if (currentHunger > 100) currentHunger = 100;
+      if (currentDanger < 0) currentDanger = 0;
+      if (currentDanger > 100) currentDanger = 100;
+      //   hunger: (modified hunger value),
+      //   danger: (modified danger value)
+      return {
+        hunger: currentHunger,
+        danger: currentDanger
+      };
+    },
+    hidingInBush: () => {
+      // The second method will be called hidingInBush.
+      // hidingInBush will increase hunger by 35 and decrease danger by 20.
+      currentHunger += 35;
+      currentDanger -= 20;
+      if (currentHunger < 0) currentHunger = 0;
+      if (currentHunger > 100) currentHunger = 100;
+      if (currentDanger < 0) currentDanger = 0;
+      if (currentDanger > 100) currentDanger = 100;
+      return {
+        hunger: currentHunger,
+        danger: currentDanger
+      };
+    }
+  };
+};
